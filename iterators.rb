@@ -32,6 +32,15 @@ module Enumerable
     end
     array
   end
+
+  def my_all?
+    return unless block_given?
+
+    my_each do |val|
+      return false unless yield(val)
+    end
+    true
+  end
 end
 
 my_hash = {
@@ -39,6 +48,6 @@ my_hash = {
   phone: '0912333333'
 }
 
-z = [1, 2, 3, 4, 5, 6, 7, 8].my_select { |value| value < 8 }
+z = [1, 2, 3, 4, 5, 6, 7, 8].my_all? { |value| value < 9 }
 puts z
 my_hash.my_each { |index, value| puts "index = #{index} value => #{value}" }
