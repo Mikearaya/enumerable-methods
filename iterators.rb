@@ -37,9 +37,18 @@ module Enumerable
     return unless block_given?
 
     my_each do |val|
-      return false unless yield(val)
+      return false unless yield(val) || size.zero?
     end
     true
+  end
+
+  def my_any?
+    return unless block_given?
+
+    my_each do |val|
+      return true if yield(val)
+    end
+    false
   end
 end
 
@@ -48,6 +57,6 @@ my_hash = {
   phone: '0912333333'
 }
 
-z = [1, 2, 3, 4, 5, 6, 7, 8].my_all? { |value| value < 9 }
+z = [1, 2, 3, 4, 5, 6, 7, 8].my_all? { |value| value < 10 }
 puts z
 my_hash.my_each { |index, value| puts "index = #{index} value => #{value}" }
