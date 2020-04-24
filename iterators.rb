@@ -26,12 +26,9 @@ module Enumerable
   def my_select
     return unless block_given?
 
-    index = 0
     array = []
-
-    while index < size
-      array.push(self[index]) if yield(self[index]) == true
-      index += 1
+    my_each do |element|
+      array.push(element) if yield(element) == true
     end
     array
   end
@@ -42,4 +39,6 @@ my_hash = {
   phone: '0912333333'
 }
 
+z = [1, 2, 3, 4, 5, 6, 7, 8].my_select { |value| value < 8 }
+puts z
 my_hash.my_each { |index, value| puts "index = #{index} value => #{value}" }
