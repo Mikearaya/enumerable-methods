@@ -6,6 +6,7 @@ module Enumerable
       case self.class.name
       when 'Hash' then yield(keys[index], self[keys[index]])
       when 'Array' then yield(self[index])
+      when 'Range' then yield(to_a[index])
       end
       index += 1
     end
@@ -72,13 +73,16 @@ module Enumerable
     end
     new_array
   end
+
+  def my_inject
+    return enum_for unless block_given?
+
+    accumulator = 0
+    my_each do |element|
+      accumulator = yield(accumulator, element)
+    end
+    accumulator
+  end
 end
 
-my_hash = {
-  name: 'Mikael Araya',
-  phone: '0912333333'
-}
-
-z = [1, 2, 3, 4, 5, 2, 7, 8].my_map
-puts z
-my_hash.my_each { |index, value| puts "index = #{index} value => #{value}" }
+(5..10).inject { |sum, n| sum + n }
