@@ -22,6 +22,19 @@ module Enumerable
       index += 1
     end
   end
+
+  def my_select
+    return unless block_given?
+
+    index = 0
+    array = []
+
+    while index < size
+      array.push(self[index]) if yield(self[index]) == true
+      index += 1
+    end
+    array
+  end
 end
 
 my_hash = {
