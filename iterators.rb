@@ -37,7 +37,7 @@ module Enumerable
     return unless block_given?
 
     my_each do |val|
-      return false unless yield(val) || size.zero?
+      return false unless yield(val) or size.zero?
     end
     true
   end
@@ -50,6 +50,15 @@ module Enumerable
     end
     false
   end
+
+  def my_none?
+    return unless block_given?
+
+    my_each do |val|
+      return false if yield(val) and size.positive
+    end
+    true
+  end
 end
 
 my_hash = {
@@ -57,6 +66,6 @@ my_hash = {
   phone: '0912333333'
 }
 
-z = [1, 2, 3, 4, 5, 6, 7, 8].my_all? { |value| value < 10 }
+z = [1, 2, 3, 4, 5, 6, 7, 8].my_none? { |value| value > 10 }
 puts z
 my_hash.my_each { |index, value| puts "index = #{index} value => #{value}" }
