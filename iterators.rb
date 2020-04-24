@@ -59,6 +59,21 @@ module Enumerable
     end
     true
   end
+
+  def my_count(args = 0)
+    if block_given?
+      counter = 0
+      my_each do |element|
+        counter += 1 if yield(element)
+      end
+      counter
+    elsif args.positive?
+      filtered = my_select { |element| element == args }
+      filtered.size
+    else
+      size
+    end
+  end
 end
 
 my_hash = {
@@ -66,6 +81,6 @@ my_hash = {
   phone: '0912333333'
 }
 
-z = [1, 2, 3, 4, 5, 6, 7, 8].my_none? { |value| value > 10 }
-puts z
+[1, 2, 3, 4, 5, 2, 7, 8].my_count(2) { |index, value| puts "index = #{index} value => #{value}" }
+
 my_hash.my_each { |index, value| puts "index = #{index} value => #{value}" }
