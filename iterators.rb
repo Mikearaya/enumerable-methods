@@ -62,6 +62,16 @@ module Enumerable
       size
     end
   end
+
+  def my_map
+    return enum_for unless block_given?
+
+    new_array = []
+    my_each do |element|
+      new_array.push(yield(element))
+    end
+    new_array
+  end
 end
 
 my_hash = {
@@ -69,6 +79,6 @@ my_hash = {
   phone: '0912333333'
 }
 
-[1, 2, 3, 4, 5, 2, 7, 8].my_count(2) { |index, value| puts "index = #{index} value => #{value}" }
-
+z = [1, 2, 3, 4, 5, 2, 7, 8].my_map
+puts z
 my_hash.my_each { |index, value| puts "index = #{index} value => #{value}" }
