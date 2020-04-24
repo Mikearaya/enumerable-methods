@@ -1,7 +1,5 @@
 module Enumerable
   def my_each
-    return unless block_given?
-
     index = 0
     while index < size
 
@@ -14,8 +12,6 @@ module Enumerable
   end
 
   def my_each_with_index
-    return unless block_given?
-
     index = 0
     while index < size
       yield(self[index], index)
@@ -24,8 +20,6 @@ module Enumerable
   end
 
   def my_select
-    return unless block_given?
-
     array = []
     my_each do |element|
       array.push(element) if yield(element) == true
@@ -34,8 +28,6 @@ module Enumerable
   end
 
   def my_all?
-    return unless block_given?
-
     my_each do |val|
       return false unless yield(val) or size.zero?
     end
@@ -43,8 +35,6 @@ module Enumerable
   end
 
   def my_any?
-    return unless block_given?
-
     my_each do |val|
       return true if yield(val)
     end
@@ -52,8 +42,6 @@ module Enumerable
   end
 
   def my_none?
-    return unless block_given?
-
     my_each do |val|
       return false if yield(val) and size.positive
     end
