@@ -87,7 +87,6 @@ module Enumerable
     symbole = arg1 if arg1.is_a?(Symbol)
 
     if !symbole.nil?
-
       my_each do |element|
         accumulator = accumulator ? accumulator.send(symbole, element) : element
       end
@@ -100,6 +99,13 @@ module Enumerable
   end
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
+
+def multiply_els(array)
+  array.my_inject { |memo, current| memo * current }
+end
+
+puts 'my_inject TEST using multiply_els method with array  [2, 4, 5] Call'
+puts multiply_els([2, 4, 5])
 
 ary = [1, 2, 4, 2]
 puts "Count test => #{ary}"
