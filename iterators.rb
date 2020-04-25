@@ -77,7 +77,7 @@ module Enumerable
   # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def my_inject(arg1 = nil, arg2 = nil)
     to_a unless is_a?(Array)
-    accumulator = 0
+    accumulator = nil
     symbole = nil
 
     if arg1.is_a?(Numeric)
@@ -89,18 +89,24 @@ module Enumerable
     if !symbole.nil?
 
       my_each do |element|
-        accumulator = accumulator.send(symbole, element)
+        accumulator = accumulator ? accumulator.send(symbole, element) : element
       end
     else
       my_each do |element|
-        accumulator = accumulator.to_s if element.is_a?(String)
-        accumulator = yield(accumulator, element)
+        accumulator = accumulator ? yield(accumulator, element) : element
       end
     end
     accumulator
   end
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
+
+ary = [1, 2, 4, 2]
+puts "Count test => #{ary}"
+puts ary.count #=> 4
+puts ary.count(2) #=> 2
+puts ary.count(&:even?) #=> 3
+
 longest = (5..10).my_inject(:+)
 puts longest
 
