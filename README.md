@@ -1,4 +1,4 @@
-# Ruby Enumerable Methods [![Run on Repl.it](https://repl.it/badge/github/Mikearaya/enumerable-methods)](https://repl.it/github/Mikearaya/enumerable-methods)
+# Ruby Enumerable Methods [![Run on Repl.it](https://repl.it/badge/github/Mikearaya/enumerable-methods)](https://repl.it/@MichaelAraya1/enumerable-methods-3)
 my version of Ruby’s enumerable methods. Custom implementation of the Enumerable module method, methods that provides lots of handy iteration capabilities
 
 ## Getting Started
