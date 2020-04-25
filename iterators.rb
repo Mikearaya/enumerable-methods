@@ -123,6 +123,7 @@ module Enumerable
     end
     accumulator
   end
+  alias my_reduce my_inject
 end
 # rubocop:enable  Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
