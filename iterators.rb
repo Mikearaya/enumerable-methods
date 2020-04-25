@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 module Enumerable
   def my_each
     index = 0
@@ -32,11 +33,21 @@ module Enumerable
   alias my_find_all my_select
   alias my_filter my_select
 
-  def my_all?
-    my_each do |val|
-      return false unless yield(val) or size.zero?
+  def my_all?(pattern = nil)
+    is_equal = true
+    if pattern.nil?
+      if block_given?
+        my_each { |val| is_equal = false unless yield(val) or size.zero? }
+      else my_each { |val| is_equal = false unless val == true }
+      end
+    elsif pattern.is_a?(Module)
+      if pattern.is_a?(Regexp)
+        my_each { |val| is_equal = false unless pattern.match(val) }
+      else
+        my_each { |val| is_equal = false unless val.is_a?(pattern) }
+      end
     end
-    true
+    is_equal
   end
 
   def my_any?
@@ -80,7 +91,6 @@ module Enumerable
     new_array
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def my_inject(arg1 = nil, arg2 = nil)
     to_a unless is_a?(Array)
     accumulator = nil
@@ -103,8 +113,8 @@ module Enumerable
     end
     accumulator
   end
-  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
+# rubocop:enable Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
 def multiply_els(array)
   array.my_inject { |memo, current| memo * current }
@@ -156,3 +166,14 @@ longest = %w[cat sheep bear].my_inject do |memo, word|
   memo.length > word.length ? memo : word
 end
 puts longest
+
+puts "\n my_all? TEST"
+
+result = %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+p result
+result = %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+p result
+p %w[ant bear cat].my_all?(/t/) #=> false
+p [1, 2i, 3.14].my_all?(Numeric) #=> true
+p [nil, true, 99].my_all? #=> false
+p [].my_all?
