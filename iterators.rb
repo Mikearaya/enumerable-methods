@@ -64,12 +64,14 @@ module Enumerable
     end
   end
 
-  def my_map
-    return enum_for unless block_given?
-
+  def my_map(some_proc = nil)
     new_array = []
-    my_each do |element|
+    if some_proc.is_a?(Proc)
+      my_each { |element| new_array.push(some_proc.call(element)) }
+    elsif block_given?
       new_array.push(yield(element))
+    else
+      return enum_for
     end
     new_array
   end
@@ -113,6 +115,12 @@ puts ary.count #=> 4
 puts ary.count(2) #=> 2
 puts ary.count(&:even?) #=> 3
 
+puts 'my_map Test'
+result = (1..4).map { |i| i * i }
+p result #=> [1, 4, 9, 16]
+result = (1..4).map { 'cat' }
+p result #=> ["cat", "cat", "cat", "cat"]
+
 longest = (5..10).my_inject(:+)
 puts longest
 
@@ -129,3 +137,13 @@ longest = %w[cat sheep bear].my_inject do |memo, word|
   memo.length > word.length ? memo : word
 end
 puts longest
+
+def do_something_with_block(block)
+  puts block.class
+  puts block_given?
+  block.call
+end
+
+say_something = -> { puts 'This is a lambda' }
+
+puts do_something_with_block(say_something)
