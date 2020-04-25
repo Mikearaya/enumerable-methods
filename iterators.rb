@@ -74,15 +74,46 @@ module Enumerable
     new_array
   end
 
-  def my_inject
-    return enum_for unless block_given?
-
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def my_inject(arg1 = nil, arg2 = nil)
+    to_a unless is_a?(Array)
     accumulator = 0
-    my_each do |element|
-      accumulator = yield(accumulator, element)
+    symbole = nil
+
+    if arg1.is_a?(Numeric)
+      accumulator = arg1
+      symbole = arg2 if arg2.is_a?(Symbol)
+    end
+    symbole = arg1 if arg1.is_a?(Symbol)
+
+    if !symbole.nil?
+
+      my_each do |element|
+        accumulator = accumulator.send(symbole, element)
+      end
+    else
+      my_each do |element|
+        accumulator = accumulator.to_s if element.is_a?(String)
+        accumulator = yield(accumulator, element)
+      end
     end
     accumulator
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
+longest = (5..10).my_inject(:+)
+puts longest
 
-(5..10).inject { |sum, n| sum + n }
+longest = (5..10).my_inject { |sum, n| sum + n }
+puts longest
+
+longest = (5..10).my_inject(1, :*)
+puts longest
+
+longest = (5..10).my_inject(2) { |product, n| product * n }
+puts longest
+
+longest = %w[cat sheep bear].my_inject do |memo, word|
+  memo.length > word.length ? memo : word
+end
+puts longest
