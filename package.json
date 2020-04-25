@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Clone of newsweek.com Homepage page",
   "main": "stylelint.config.js",
-  "dependencies": {},
   "devDependencies": {
     "husky": "^4.2.3",
     "lint-staged": "^10.1.2"
