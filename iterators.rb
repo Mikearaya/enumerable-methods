@@ -21,12 +21,16 @@ module Enumerable
   end
 
   def my_select
+    return enum_for unless block_given?
+
     array = []
     my_each do |element|
       array.push(element) if yield(element) == true
     end
     array
   end
+  alias my_find_all my_select
+  alias my_filter my_select
 
   def my_all?
     my_each do |val|
@@ -69,7 +73,7 @@ module Enumerable
     if some_proc.is_a?(Proc)
       my_each { |element| new_array.push(some_proc.call(element)) }
     elsif block_given?
-      new_array.push(yield(element))
+      my_each { |element| new_array.push(yield(element)) }
     else
       return enum_for
     end
@@ -111,18 +115,33 @@ puts multiply_els([2, 4, 5])
 
 ary = [1, 2, 4, 2]
 puts "Count test => #{ary}"
-puts ary.count #=> 4
-puts ary.count(2) #=> 2
-puts ary.count(&:even?) #=> 3
+puts ary.my_count #=> 4
+puts ary.my_count(2) #=> 2
+puts ary.my_count(&:even?) #=> 3
 
 puts 'my_map Test'
-result = (1..4).map { |i| i * i }
+result = (1..4).my_map { |i| i * i }
 p result #=> [1, 4, 9, 16]
-result = (1..4).map { 'cat' }
+result = (1..4).my_map { 'cat' }
 p result #=> ["cat", "cat", "cat", "cat"]
 
+puts "\nmy_each_with_index Test"
+hash = {}
+%w[cat dog wombat].my_each_with_index do |item, index|
+  hash[item] = index
+end
+puts hash
+
+puts "\n my_select and my_filter TEST"
+result = (1..10).my_find_all { |i| (i % 3).zero? } #=> [3, 6, 9]
+p result
+result = [1, 2, 3, 4, 5].my_select(&:even?) #=> [2, 4]
+p result
+result = %i[foo bar].my_filter { |x| x == :foo } #=> [:foo]
+p result
+
 longest = (5..10).my_inject(:+)
-puts longest
+p longest
 
 longest = (5..10).my_inject { |sum, n| sum + n }
 puts longest
@@ -137,13 +156,3 @@ longest = %w[cat sheep bear].my_inject do |memo, word|
   memo.length > word.length ? memo : word
 end
 puts longest
-
-def do_something_with_block(block)
-  puts block.class
-  puts block_given?
-  block.call
-end
-
-say_something = -> { puts 'This is a lambda' }
-
-puts do_something_with_block(say_something)
