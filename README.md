@@ -19,25 +19,26 @@ After you have downloaded and have a local copy on your computer, open the folde
 `ruby iterators.rb`
 
 ## Contents
-**1. #my_each method**
+
+1. **#my_each method**
   Implementation of [`#each`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-each_with_index)
-**2. #my_each_with_index method**
+2. **#my_each_with_index method**
   Implementation of [`#each_with_index`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-each_with_index)
-**3. #my_select (#my_find_all, #my_filter) method**
+3. **#my_select (#my_find_all, #my_filter) method**
   Implementation of [`#select, find_all, filter`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-select)
-**4. #my_all? method**
+4. **#my_all? method**
   Implementation of [`#all?`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-all-3F)
-**5. #my_any? method**
+5. **#my_any? method**
   Implementation of [`#any?`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-any-3F)
-**6. #my_none? method**
+6. **#my_none? method**
   Implementation of [`#none?`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-none-3F)
-**7. #my_count method**
+7. **#my_count method**
   Implementation of [`#count`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-count)
-**8. #my_map method**
+8. **#my_map method**
    Customize Implementation of [`#map`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-map). this method will now take `Proc` as an argument unlike the original one. if both `Proc` and `block` is given `Proc` will have precedence
-**9. #my_inject (#my_reduce) method**
+9. **#my_inject (#my_reduce) method**
   Implementation of [`#inject, (#reduce)`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-inject)
-**10. #multiply_els method**
+10. **#multiply_els method**
    New method only created for testing `my_inject` method
 
 ## Authors
