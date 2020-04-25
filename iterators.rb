@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:disable  Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 module Enumerable
   def my_each
     index = 0
@@ -57,11 +57,21 @@ module Enumerable
     false
   end
 
-  def my_none?
-    my_each do |val|
-      return false if yield(val) and size.positive
+  def my_none?(pattern = nil)
+    is_true = true
+    if pattern.nil?
+      if block_given?
+        my_each { |val| is_true = false if yield(val) or size.zero? }
+      else my_each { |val| is_true = false if val == true }
+      end
+    elsif pattern.is_a?(Module)
+      if pattern.is_a?(Regexp)
+        my_each { |val| is_true = false if pattern.match(val) }
+      else
+        my_each { |val| is_true = false if val.is_a?(pattern) }
+      end
     end
-    true
+    is_true
   end
 
   def my_count(args = 0)
@@ -114,7 +124,7 @@ module Enumerable
     accumulator
   end
 end
-# rubocop:enable Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:enable  Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
 def multiply_els(array)
   array.my_inject { |memo, current| memo * current }
@@ -177,3 +187,14 @@ p %w[ant bear cat].my_all?(/t/) #=> false
 p [1, 2i, 3.14].my_all?(Numeric) #=> true
 p [nil, true, 99].my_all? #=> false
 p [].my_all?
+
+puts "\n my_none? TEST"
+result = %w[ant bear cat].none? { |word| word.length == 5 } #=> true
+p result
+result = %w[ant bear cat].none? { |word| word.length >= 4 } #=> false
+p result
+p %w[ant bear cat].none?(/d/) #=> true
+p [1, 3.14, 42].none?(Float) #=> false
+p [].none? #=> true
+p [nil].none? #=> true
+p [nil, false].none? #=> true
