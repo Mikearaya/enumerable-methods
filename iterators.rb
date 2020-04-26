@@ -39,60 +39,51 @@ module Enumerable
   alias my_filter my_select
 
   def my_all?(pattern = nil)
-    is_equal = true
     if pattern.nil?
       if block_given?
-        my_each { |val| is_equal = false unless yield(val) or size.zero? }
-      else my_each { |val| is_equal = false unless val }
+        my_each { |val| return false unless yield(val) or size.zero? }
+      else my_each { |val| return false unless val }
       end
+    elsif pattern.is_a?(Regexp)
+      my_each { |val| return false unless val.match(pattern) }
     elsif pattern.is_a?(Module)
-      if pattern.is_a?(Regexp)
-        my_each { |val| is_equal = false unless val.match(pattern) }
-      else
-        my_each { |val| is_equal = false unless val.is_a?(pattern) }
-      end
+      my_each { |val| return false unless val.is_a?(pattern) }
     else
-      my_each { |val| is_equal = false unless val == pattern }
+      my_each { |val| return false unless val == pattern }
     end
-    is_equal
+    true
   end
 
   def my_any?(pattern = nil)
-    is_equal = false
     if pattern.nil?
       if block_given?
-        my_each { |val| is_equal = true if yield(val) or size.zero? }
-      else my_each { |val| is_equal = true if val }
+        my_each { |val| return true if yield(val) or size.zero? }
+      else my_each { |val| return true if val }
       end
+    elsif pattern.is_a?(Regexp)
+      my_each { |val| return true if val.match(pattern) }
     elsif pattern.is_a?(Module)
-      if pattern.is_a?(Regexp)
-        my_each { |val| is_equal = true if val.match(pattern) }
-      else
-        my_each { |val| is_equal = true if val.is_a?(pattern) }
-      end
+      my_each { |val| return true if val.is_a?(pattern) }
     else
-      my_each { |val| is_equal = true if val == pattern }
+      my_each { |val| return true if val == pattern }
     end
-    is_equal
+    false
   end
 
   def my_none?(pattern = nil)
-    is_true = true
     if pattern.nil?
       if block_given?
-        my_each { |val| is_true = false if yield(val) or size.zero? }
-      else my_each { |val| is_true = false if val }
+        my_each { |val| return false if yield(val) or size.zero? }
+      else my_each { |val| return false if val }
       end
+    elsif pattern.is_a?(Regexp)
+      my_each { |val| return false if val.match(pattern) }
     elsif pattern.is_a?(Module)
-      if pattern.is_a?(Regexp)
-        my_each { |val| is_true = false if pattern.match(val) }
-      else
-        my_each { |val| is_true = false if val.is_a?(pattern) }
-      end
+      my_each { |val| return false if val.is_a?(pattern) }
     else
-      my_each { |val| is_true = false if val.equal(pattern) }
+      my_each { |val| return false if val == pattern }
     end
-    is_true
+    true
   end
 
   def my_count(args = nil)
@@ -117,7 +108,7 @@ module Enumerable
     elsif block_given?
       my_each { |element| new_array.push(yield(element)) }
     else
-      return enum_for
+      return to_enum :my_map
     end
     new_array
   end
@@ -152,14 +143,3 @@ end
 def multiply_els(array)
   array.my_inject { |memo, current| memo * current }
 end
-
-p [1, 5, 2].my_each_with_index
-p [true, [], ''].my_all? == [true, [], ''].all?
-p %w[dog door rod blade].my_all?(/o/) == %w[dog door rod blade].all?(/o/)
-p [3, 4, 7, 11].my_all?(3) == [3, 4, 7, 11].all?(3)
-p [nil, false, true, []].my_any? == [nil, false, true, []].any?
-p [1, 2.5, 'a', 9].my_any?(Integer) == [1, 2.5, 'a', 9].any?(Integer)
-p %w[dog door rod blade].my_any?(/z/) == %w[dog door rod blade].any?(/z/)
-p [3, 4, 7, 11].my_any?(3) == [3, 4, 7, 11].any?(3)
-p [nil, false, true, []].my_any? == [nil, false, true, []].any?
-p [5, 4, 1, 4, 5, 0].my_count(0) == [5, 4, 1, 4, 5, 0].count(0)
