@@ -57,11 +57,23 @@ module Enumerable
     is_equal
   end
 
-  def my_any?
-    my_each do |val|
-      return true if yield(val)
+  def my_any?(pattern = nil)
+    is_equal = false
+    if pattern.nil?
+      if block_given?
+        my_each { |val| is_equal = true if yield(val) or size.zero? }
+      else my_each { |val| is_equal = true if val }
+      end
+    elsif pattern.is_a?(Module)
+      if pattern.is_a?(Regexp)
+        my_each { |val| is_equal = true if val.match(pattern) }
+      else
+        my_each { |val| is_equal = true if val.is_a?(pattern) }
+      end
+    else
+      my_each { |val| is_equal = true if val == pattern }
     end
-    false
+    is_equal
   end
 
   def my_none?(pattern = nil)
@@ -145,3 +157,8 @@ p [1, 5, 2].my_each_with_index
 p [true, [], ''].my_all? == [true, [], ''].all?
 p %w[dog door rod blade].my_all?(/o/) == %w[dog door rod blade].all?(/o/)
 p [3, 4, 7, 11].my_all?(3) == [3, 4, 7, 11].all?(3)
+p [nil, false, true, []].my_any? == [nil, false, true, []].any?
+p [1, 2.5, 'a', 9].my_any?(Integer) == [1, 2.5, 'a', 9].any?(Integer)
+p %w[dog door rod blade].my_any?(/z/) == %w[dog door rod blade].any?(/z/)
+p [3, 4, 7, 11].my_any?(3) == [3, 4, 7, 11].any?(3)
+p [nil, false, true, []].my_any? == [nil, false, true, []].any?
