@@ -1,6 +1,9 @@
-# rubocop:disable  Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop: disable Metrics/ModuleLength
+# rubocop: disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 module Enumerable
   def my_each
+    return to_enum :my_each unless block_given?
+
     index = 0
     while index < size
 
@@ -14,6 +17,8 @@ module Enumerable
   end
 
   def my_each_with_index
+    return to_enum :my_each_with_index unless block_given?
+
     index = 0
     while index < size
       yield(self[index], index)
@@ -38,14 +43,16 @@ module Enumerable
     if pattern.nil?
       if block_given?
         my_each { |val| is_equal = false unless yield(val) or size.zero? }
-      else my_each { |val| is_equal = false unless val == true }
+      else my_each { |val| is_equal = false unless val }
       end
     elsif pattern.is_a?(Module)
       if pattern.is_a?(Regexp)
-        my_each { |val| is_equal = false unless pattern.match(val) }
+        my_each { |val| is_equal = false unless val.match(pattern) }
       else
         my_each { |val| is_equal = false unless val.is_a?(pattern) }
       end
+    else
+      my_each { |val| is_equal = false unless val == pattern }
     end
     is_equal
   end
@@ -62,7 +69,7 @@ module Enumerable
     if pattern.nil?
       if block_given?
         my_each { |val| is_true = false if yield(val) or size.zero? }
-      else my_each { |val| is_true = false if val == true }
+      else my_each { |val| is_true = false if val }
       end
     elsif pattern.is_a?(Module)
       if pattern.is_a?(Regexp)
@@ -70,6 +77,8 @@ module Enumerable
       else
         my_each { |val| is_true = false if val.is_a?(pattern) }
       end
+    else
+      my_each { |val| is_true = false if val.equal(pattern) }
     end
     is_true
   end
@@ -125,8 +134,14 @@ module Enumerable
   end
   alias my_reduce my_inject
 end
-# rubocop:enable  Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop: enable Metrics/ModuleLength
+# rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
 def multiply_els(array)
   array.my_inject { |memo, current| memo * current }
 end
+
+p [1, 5, 2].my_each_with_index
+p [true, [], ''].my_all? == [true, [], ''].all?
+p %w[dog door rod blade].my_all?(/o/) == %w[dog door rod blade].all?(/o/)
+p [3, 4, 7, 11].my_all?(3) == [3, 4, 7, 11].all?(3)
