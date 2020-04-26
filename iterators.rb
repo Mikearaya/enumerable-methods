@@ -95,14 +95,14 @@ module Enumerable
     is_true
   end
 
-  def my_count(args = 0)
+  def my_count(args = nil)
     if block_given?
       counter = 0
       my_each do |element|
         counter += 1 if yield(element)
       end
       counter
-    elsif args.positive?
+    elsif !args.nil?
       filtered = my_select { |element| element == args }
       filtered.size
     else
@@ -162,3 +162,4 @@ p [1, 2.5, 'a', 9].my_any?(Integer) == [1, 2.5, 'a', 9].any?(Integer)
 p %w[dog door rod blade].my_any?(/z/) == %w[dog door rod blade].any?(/z/)
 p [3, 4, 7, 11].my_any?(3) == [3, 4, 7, 11].any?(3)
 p [nil, false, true, []].my_any? == [nil, false, true, []].any?
+p [5, 4, 1, 4, 5, 0].my_count(0) == [5, 4, 1, 4, 5, 0].count(0)
