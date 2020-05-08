@@ -92,4 +92,14 @@ describe 'Iterators' do
       expect(number.my_select).to be_instance_of(Enumerator)
     end
   end
+
+  context '#my_find_all should Return ' do
+    it 'items that match block expression' do
+      expect(number.my_find_all(&:even?)).to all(be_even)
+    end
+
+    it 'enumerator when no block is given' do
+      expect(number.my_find_all).to be_instance_of(Enumerator)
+    end
+  end
 end
