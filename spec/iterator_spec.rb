@@ -180,4 +180,14 @@ describe 'Iterators' do
       expect(string.my_none?(Integer)).to eq true
     end
   end
+
+  context '#my_map should Return ' do
+    it 'transformed array when block is given' do
+      expect((1..4).my_map { |i| i * i }).to match_array [1, 4, 9, 16]
+    end
+
+    it 'enumerable when no block is given' do
+      expect((1..4).my_map).to be_instance_of(Enumerator)
+    end
+  end
 end
