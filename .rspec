@@ -1,0 +1,4 @@
+--drb
+--require spec_helper
+--format Fuubar
+--color
