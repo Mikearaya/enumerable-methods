@@ -60,7 +60,7 @@ describe 'Iterators' do
     end
   end
 
-  context '#my_count? should Return ' do
+  context '#my_count should Return ' do
     it 'number of item if when no arg given' do
       expect(number.my_count).to eq 5
     end
@@ -70,6 +70,26 @@ describe 'Iterators' do
 
     it 'number of items return true when block execute' do
       expect(number.my_count(&:even?)).to eq 3
+    end
+  end
+
+  context '#my_filter should Return ' do
+    it 'items that match block expression' do
+      expect(number.my_filter(&:even?)).to all(be_even)
+    end
+
+    it 'enumerator when no block is given' do
+      expect(number.my_filter).to be_instance_of(Enumerator)
+    end
+  end
+
+  context '#my_select should Return ' do
+    it 'items that match block expression' do
+      expect(number.my_select(&:even?)).to all(be_even)
+    end
+
+    it 'enumerator when no block is given' do
+      expect(number.my_select).to be_instance_of(Enumerator)
     end
   end
 end
