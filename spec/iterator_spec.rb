@@ -203,4 +203,18 @@ describe 'Iterators' do
       expect((1..4).my_each_with_index).to be_instance_of(Enumerator)
     end
   end
+
+  context '#my_each should Return ' do
+    it 'enumerable when no block is given' do
+      expect((1..4).my_each).to be_instance_of(Enumerator)
+    end
+    # rubocop:disable Lint/Void
+    it 'should not modify the array' do
+      expect((number.each { |x| x * x })).to match_array(number)
+    end
+    # rubocop:enable Lint/Void
+    it 'to output to stdout' do
+      expect { (number.each { |x| print x }) }.to output.to_stdout
+    end
+  end
 end
