@@ -1,0 +1,31 @@
+{
+  "name": "enumerable-methods",
+  "version": "1.0.0",
+  "description": "Clone of newsweek.com Homepage page",
+  "main": "stylelint.config.js",
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.2"
+  },
+  "scripts": {
+    "stylelint": ""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/**/*.rb": [
+      "rubocop"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikearaya/enumerable-methods.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {},
+  "homepage": "https://mikearaya.github.io/enumerable-methods#readme"
+}

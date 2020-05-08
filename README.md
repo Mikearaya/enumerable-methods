@@ -1,37 +1,65 @@
-## Welcome to GitHub Pages
 
-You can use the [editor on GitHub](https://github.com/Mikearaya/enumerable-methods/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+# Ruby Enumerable Methods [![Run on Repl.it](https://repl.it/badge/github/Mikearaya/enumerable-methods)](https://repl.it/@MichaelAraya1/enumerable-methods)
+my version of Ruby’s enumerable methods. Custom implementation of the Enumerable module method, methods that provides lots of handy iteration capabilities
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Getting Started
 
-### Markdown
+To get a local copy up and running follow these simple example steps.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- Clone or download this repository to your local workstation.
 
-```markdown
-Syntax highlighted code block
+### Prerequisites
 
-# Header 1
-## Header 2
-### Header 3
+Since all the code is written using ruby `Ruby Runtime >= 1.9` is required to interpret the code. if you don't have ruby runtime installed on your computer
+follow the instruction for your specific operating system on the [official installation guide](https://www.ruby-lang.org/en/documentation/installation/)
 
-- Bulleted
-- List
+### Usage
 
-1. Numbered
-2. List
+After you have downloaded and have a local copy on your computer, open the folder using your terminal/commandline window and run
 
-**Bold** and _Italic_ and `Code` text
+`ruby iterators.rb`
 
-[Link](url) and ![Image](src)
-```
+## Contents
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+1. **#my_each method**
+  Implementation of [`#each`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-each_with_index)
+2. **#my_each_with_index method**
+  Implementation of [`#each_with_index`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-each_with_index)
+3. **#my_select (#my_find_all, #my_filter) method**
+  Implementation of [`#select, find_all, filter`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-select)
+4. **#my_all? method**
+  Implementation of [`#all?`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-all-3F)
+5. **#my_any? method**
+  Implementation of [`#any?`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-any-3F)
+6. **#my_none? method**
+  Implementation of [`#none?`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-none-3F)
+7. **#my_count method**
+  Implementation of [`#count`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-count)
+8. **#my_map method**
+   Customize Implementation of [`#map`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-map). this method will now take `Proc` as an argument unlike the original one. if both `Proc` and `block` is given `Proc` will have precedence
+9. **#my_inject (#my_reduce) method**
+  Implementation of [`#inject, (#reduce)`](https://ruby-doc.org/core-2.7.1/Enumerable.html#method-i-inject)
+10. **#multiply_els method**
+   New method only created for testing `my_inject` method
 
-### Jekyll Themes
+## Authors
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Mikearaya/enumerable-methods/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+👤 **Mikael Araya**
 
-### Support or Contact
+- Github: [@mikearaya](https://github.com/mikearaya)
+- Twitter: [@mikearaya12](https://twitter.com/mikearaya12)
+- Linkedin: [linkedin](https://linkedin.com/in/mikael-araya)
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!
+
+Feel free to check the [issues page](issues/).
+
+## Show your support
+
+Give a ⭐️ if you like this project!
+
+## 📝 License
+
+This project is [MIT](lic.url) licensed.
