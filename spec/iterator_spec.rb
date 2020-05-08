@@ -150,4 +150,34 @@ describe 'Iterators' do
       expect(longest).to eq 'bear'
     end
   end
+
+  context '#my_none? should Return false when  ' do
+    it 'some element match expression' do
+      expect(string.my_none? { |word| word.size >= 4 }).not_to eq true
+    end
+    it 'some element match pattern' do
+      expect(string.my_none?(/b/i)).not_to eq true
+    end
+    it 'some element are of  provided datatype' do
+      expect(string.my_none?(String)).not_to eq true
+    end
+
+    it 'some element are are truthy' do
+      expect([nil, false, true].none?).not_to eq true
+    end
+  end
+  context '#my_none? should Return true when' do
+    it 'no element match expression' do
+      expect(string.my_none? { |word| word.size == 5 }).to eq true
+    end
+    it 'no element match pattern' do
+      expect(string.my_none?(/z/i)).to eq true
+    end
+    it 'no element are are truthy' do
+      expect([nil, false].none?).to eq true
+    end
+    it 'no element are of  provided datatype' do
+      expect(string.my_none?(Integer)).to eq true
+    end
+  end
 end
