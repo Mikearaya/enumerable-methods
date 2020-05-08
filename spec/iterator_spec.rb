@@ -190,4 +190,17 @@ describe 'Iterators' do
       expect((1..4).my_map).to be_instance_of(Enumerator)
     end
   end
+
+  context '#my_each_with_index should Return ' do
+    it 'call block with two arguments (item & index)' do
+      hash = {}
+      %w[cat dog wombat].each_with_index do |item, index|
+        hash[item] = index
+      end
+      expect(hash).to include('cat' => 0, 'dog' => 1, 'wombat' => 2)
+    end
+    it 'enumerable when no block is given' do
+      expect((1..4).my_each_with_index).to be_instance_of(Enumerator)
+    end
+  end
 end
