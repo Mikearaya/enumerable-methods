@@ -1,6 +1,6 @@
 require './iterators.rb'
 describe 'Iterators' do
-  let(:number) { [1, 2, 3, 4] }
+  let(:number) { [1, 2, 3, 4, 2] }
   let(:string) { %w[cat bear rat] }
   context '#my_all?' do
     it 'Return true when no block is given' do
@@ -57,6 +57,19 @@ describe 'Iterators' do
 
     it 'Return false when no element match pattern' do
       expect(string.my_any?(/y/i)).not_to eq true
+    end
+  end
+
+  context '#my_count? should Return ' do
+    it 'number of item if when no arg given' do
+      expect(number.my_count).to eq 5
+    end
+    it 'number of items equal to argument' do
+      expect(number.my_count(2)).to eq 2
+    end
+
+    it 'number of items return true when block execute' do
+      expect(number.my_count(&:even?)).to eq 3
     end
   end
 end
