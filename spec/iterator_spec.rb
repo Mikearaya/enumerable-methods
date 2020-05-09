@@ -91,26 +91,6 @@ describe 'Iterators' do
     end
   end
 
-  context '#my_select should Return ' do
-    it 'items that match block expression' do
-      expect(number.my_select(&:even?)).to all(be_even)
-    end
-
-    it 'enumerator when no block is given' do
-      expect(number.my_select).to be_instance_of(Enumerator)
-    end
-  end
-
-  context '#my_find_all should Return ' do
-    it 'items that match block expression' do
-      expect(number.my_find_all(&:even?)).to all(be_even)
-    end
-
-    it 'enumerator when no block is given' do
-      expect(number.my_find_all).to be_instance_of(Enumerator)
-    end
-  end
-
   context '#my_inject should Return ' do
     it 'single result when passed a symbol' do
       expect((5..10).my_inject(:+)).to eq 45
@@ -132,30 +112,6 @@ describe 'Iterators' do
         memo.length > word.length ? memo : word
       end
       expect(longest).to eq 'sheep'
-    end
-  end
-
-  context '#my_reduce should Return ' do
-    it 'single result when passed a symbol' do
-      expect((5..10).my_reduce(:+)).to eq 45
-    end
-
-    it 'single result based on provided block result' do
-      expect((5..10).my_reduce { |sum, n| sum + n }).to eq 45
-    end
-
-    it 'single result based on value and symbol provided' do
-      expect((5..10).my_reduce(1, :*)).to eq 151_200
-    end
-    it 'single result based on value and block expression' do
-      expect((5..10).my_reduce(1) { |product, n| product * n }).to eq 151_200
-    end
-
-    it 'single result based on block expression' do
-      longest = string.my_reduce do |memo, word|
-        memo.length > word.length ? memo : word
-      end
-      expect(longest).to eq 'bear'
     end
   end
 
